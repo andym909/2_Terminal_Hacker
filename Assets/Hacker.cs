@@ -7,16 +7,10 @@ public class Hacker : MonoBehaviour {
 
     // Game State
     int level;
+    enum Screen {MainMenu, Password, Win}
+    string password;
 
-    enum Screen {
-        MainMenu,
-        LevelOne,
-        LevelTwo,
-        LevelThree,
-        Win
-    }
-
-    Screen currentScreen = Screen.MainMenu;
+    Screen currentScreen;
 
     // Use this for initialization
     void Start () {
@@ -42,62 +36,50 @@ public class Hacker : MonoBehaviour {
         else if (currentScreen == Screen.MainMenu) {
             RunMainMenu(input);
         }
-        else if (currentScreen == Screen.LevelOne) {
-            if (input == "password") {
-                Terminal.WriteLine("Congratulations, you have entered the mainframe.");
-                currentScreen = Screen.Win;
-            }
-            else {
-                Terminal.WriteLine("Incorrect, please try again.");
-            }
-        }
-        else if (currentScreen == Screen.LevelTwo) {
-            if (input == "lightbulb") {
-                Terminal.WriteLine("Congratulations, you have entered the mainframe.");
-                currentScreen = Screen.Win;
-            }
-            else {
-                Terminal.WriteLine("Incorrect, please try again.");
-            }
-        }
-        else if (currentScreen == Screen.LevelThree) {
-            if (input == "philosophical") {
-                Terminal.WriteLine("Congratulations, you have entered the   mainframe.");
-                currentScreen = Screen.Win;
-            }
-            else {
-                Terminal.WriteLine("Incorrect, please try again.");
-            }
+        else if (currentScreen == Screen.Password) {
+            checkPassword(input);
         }
     }
 
 
     void RunMainMenu(string input) {
         if (input == "1") {
-            StartGame(1);
+            level = 1;
+            Terminal.WriteLine("You have chosen level " + level);
+            password = "password";
+            StartGame();
         }
         else if (input == "2") {
-            StartGame(2);
+            level = 2;
+            Terminal.WriteLine("You have chosen level " + level);
+            password = "lightbulb";
+            StartGame();
         }
         else if (input == "3") {
-            StartGame(3);
+            level = 3;
+            Terminal.WriteLine("You have chosen level " + level);
+            password = "philosophical";
+            StartGame();
         }
         else {
-            Terminal.WriteLine("Not a valid option. Please choose again:");
+            Terminal.WriteLine("Not valid. Please choose again:");
         }
     }
 
 
-    void StartGame(int level) {
-        Terminal.WriteLine("You have chosen level " + level);
+    void StartGame() {
         Terminal.WriteLine("Please enter the password: ");
-        if (level == 1)
-            currentScreen = Screen.LevelOne;
-        else if (level == 2)
-            currentScreen = Screen.LevelTwo;
-        else if (level == 3)
-            currentScreen = Screen.LevelThree;
-        
+        currentScreen = Screen.Password;
 
+    }
+
+    void checkPassword(string userGuess) {
+        if (userGuess == password) {
+            Terminal.WriteLine("Congratulations, you've entered the mainframe.");
+            currentScreen = Screen.Win;
+        }
+        else {
+            Terminal.WriteLine("Incorrect password.  Try again.");
+        }
     }
 }
