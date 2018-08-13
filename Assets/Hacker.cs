@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Hacker : MonoBehaviour {
 
+    //Game configuration data
+    string[] level1Passwords = { };
+
     // Game State
     int level;
     enum Screen {MainMenu, Password, Win}
